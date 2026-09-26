@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Congkak"
+description = "A playable digital Congkak board game for two people sharing one screen, with the standard seven-house setup, turn guidance, seed movement, scoring, and rules."
+version = "1.0.0"
+id = "artifacts/congkak-game"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18242
+
+[services.development]
+run = "pnpm --filter @workspace/congkak-game run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/congkak-game", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/congkak-game/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18242"
+BASE_PATH = "/"
